@@ -7,6 +7,9 @@ import ro.msg.javatraining.demo.project.util.SSLUtil;
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
 
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
+
 @SpringBootApplication
 public class DemoApplication {
 
