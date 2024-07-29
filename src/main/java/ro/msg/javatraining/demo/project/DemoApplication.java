@@ -2,6 +2,10 @@ package ro.msg.javatraining.demo.project;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import ro.msg.javatraining.demo.project.util.SSLUtil;
+
+import java.security.KeyManagementException;
+import java.security.NoSuchAlgorithmException;
 
 import java.security.KeyManagementException;
 import java.security.NoSuchAlgorithmException;
@@ -13,5 +17,4 @@ public class DemoApplication {
 		SSLUtil.turnOffSslChecking();
 		SpringApplication.run(DemoApplication.class, args);
 	}
-
 }

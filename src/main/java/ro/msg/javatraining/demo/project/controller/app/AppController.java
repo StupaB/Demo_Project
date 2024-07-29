@@ -15,8 +15,11 @@ import ro.msg.javatraining.demo.project.service.UserDetailsServiceImpl;
 @RequestMapping("/app")
 public class AppController {
 
+
+
 	@Autowired
 	UserDetailsServiceImpl userDetailsService;
+
 
 	@GetMapping("/user")
 	@Secured(value = {"ROLE_USER", "ROLE_ADMIN"})
