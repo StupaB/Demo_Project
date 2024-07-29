@@ -5,6 +5,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 import ro.msg.javatraining.demo.project.service.AirportService;
 import ro.msg.javatraining.demo.project.service.PdfService;
@@ -20,12 +21,14 @@ public class PdfController {
     AirportService airportService;
 
     @GetMapping("/get")
+    @Secured(value = { "ROLE_ADMIN"})
     public String getAirports() {
 
         return airportService.getAirports();
     }
 
     @GetMapping("/get/{id}")
+    @Secured(value = {"ROLE_USER", "ROLE_ADMIN"})
     public String getAirportById(@PathVariable String id) {
 
         return airportService.getAirportById(id);
@@ -34,6 +37,7 @@ public class PdfController {
 
 
     @GetMapping("/generate")
+    @Secured(value = {"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<byte[]> generatePdf() {
         String text=airportService.getAirports();
         ByteArrayOutputStream baos = pdfService.generatePdf(text);
@@ -46,6 +50,7 @@ public class PdfController {
     }
 
     @GetMapping("/generate/{id}")
+    @Secured(value = {"ROLE_USER", "ROLE_ADMIN"})
     public ResponseEntity<byte[]> generatePdf(@PathVariable String id) {
         String text=airportService.getAirportById(id);
         ByteArrayOutputStream baos = pdfService.generatePdf(text);
