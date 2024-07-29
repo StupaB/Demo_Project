@@ -11,6 +11,7 @@ import ro.msg.javatraining.demo.project.service.UserDetailsImpl;
 @RestController
 @RequestMapping("/app")
 public class AppController {
+
 	
 	@GetMapping("/user")
 	@Secured(value = {"ROLE_USER", "ROLE_ADMIN"})
