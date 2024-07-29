@@ -1,6 +1,5 @@
 package ro.msg.javatraining.demo.project.controller.auth;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -20,7 +19,6 @@ import ro.msg.javatraining.demo.project.service.UserDetailsImpl;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @RestController
 @RequestMapping("/auth")
 public class AuthController {
@@ -36,7 +34,6 @@ public class AuthController {
   @Autowired
   BCryptPasswordEncoder bCryptPasswordEncoder;
 
-
   @PostMapping("/register")
   public User register(@RequestBody User user) {
     user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -45,24 +42,21 @@ public class AuthController {
 
   @PostMapping("/login")
   public ResponseEntity<SignInResponse> authenticateUser(@RequestBody LoginRequest loginRequest) {
-
-    Authentication authentication = authenticationManager
-        .authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
+    Authentication authentication = authenticationManager.authenticate(
+            new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
     UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
-
     String jwt = jwtUtils.generateJwtToken(userDetails);
 
-    List<String> roles = userDetails.getAuthorities().stream().map(item -> item.getAuthority())
-        .collect(Collectors.toList());
+    List<String> roles = userDetails.getAuthorities().stream()
+            .map(item -> item.getAuthority())
+            .collect(Collectors.toList());
 
     SignInResponse response = new SignInResponse(jwt, userDetails.getId(),
             userDetails.getUsername(), roles);
 
     return ResponseEntity.ok(response);
   }
-
-
 }
