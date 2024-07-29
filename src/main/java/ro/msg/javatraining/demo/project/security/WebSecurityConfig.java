@@ -1,5 +1,6 @@
 package ro.msg.javatraining.demo.project.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.web.client.RestTemplate;
 import ro.msg.javatraining.demo.project.service.UserDetailsServiceImpl;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
@@ -39,8 +41,8 @@ public class WebSecurityConfig{
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request ->
-                        request.requestMatchers("/auth/**", "/app/test/**").permitAll().
-                                anyRequest().authenticated())
+                        request.requestMatchers("/auth/**","/app/test/**").permitAll().
+                                anyRequest().permitAll())
                 .sessionManagement(manager -> manager.sessionCreationPolicy(STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
@@ -60,5 +62,6 @@ public class WebSecurityConfig{
             throws Exception {
         return config.getAuthenticationManager();
     }
+
 
 }
