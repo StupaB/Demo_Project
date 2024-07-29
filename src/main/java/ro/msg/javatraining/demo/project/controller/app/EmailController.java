@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ro.msg.javatraining.demo.project.dto.EmailDetailsDto;
 import ro.msg.javatraining.demo.project.model.Email;
 import ro.msg.javatraining.demo.project.model.User;
 import ro.msg.javatraining.demo.project.service.EmailService;
@@ -19,12 +20,10 @@ public class EmailController {
 
     @PostMapping("/send-email")
     @Secured(value = {"ROLE_USER", "ROLE_ADMIN"})
-    public String sendEmail(@RequestBody Email emailDetails) {
+
+    public String sendEmail(@RequestBody EmailDetailsDto emailDetails) {
         try {
-            // Assuming you have a way to get a User object from emailDetails or context
-            User user = new User(); // This should be fetched from your user management logic
-            user.setEmail(emailDetails.getTo()); // Set email fetched from emailDetails
-            emailService.sendSimpleMessage(user, emailDetails.getSubject(), emailDetails.getText());
+            emailService.sendSimpleMessage(emailDetails.getTo(), emailDetails.getSubject(), emailDetails.getText());
             return "Email sent successfully";
         } catch (Exception e) {
             e.printStackTrace();
