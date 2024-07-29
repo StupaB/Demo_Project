@@ -1,6 +1,7 @@
 package ro.msg.javatraining.demo.project.model;
 
 import jakarta.persistence.*;
+import org.springframework.cache.annotation.Cacheable;
 
 import java.util.HashSet;
 import java.util.Set;
